@@ -13,7 +13,7 @@ double StringEvaluate::eval(string s)
 {
 	string str = deletespace(s);//空白は短縮します
 	str = replaceMathConstant(str);//PI,Eとかの置き換えをする
-	isValidformula(str);//変な記号とか入ってないか確認
+	isValidformula(str);//変な記号とか入ってないか確認,空文字列も判定
 
 	string fname;//関数名
 	string argstr;//関数の引数文字列
@@ -62,7 +62,7 @@ double StringEvaluate::eval(string s)
 			
 			//記号が並ばないように...
 
-			i = 0;//基本、一回処理終わったら頭からやり直します
+			i = -1;//基本、一回処理終わったら頭からやり直します
 
 			fname.clear();
 			argstr.clear();
@@ -93,7 +93,7 @@ double StringEvaluate::eval(string s)
 
 			blacketstr.clear();
 
-			i = 0;
+			i = -1;
 		}
 	}
 
@@ -106,21 +106,29 @@ double StringEvaluate::eval(string s)
 		string calcans = ans.ansstr;//置き換え先の文字列
 
 		str.replace(str.find(replacestr), replacestr.size(), calcans);
-		i = 0;
+		i = -1;
 	}
 
 	for (int i = 0; i < str.size(); i++)//足し算/引き算 記号を見つけたらifより下の行も実行
 	{	
 		if (str[i] != '+' && str[i] != '-')continue;
 
-		if (str.find_first_of('-') == str.find_last_of('-') && str[0] == '-')break;//唯一出てくるマイナス記号が先頭なら無視
+		if (str.find_first_of('-') == str.find_last_of('-') && str[0] == '-'&& str.find('+')==string::npos)break;//唯一出てくるマイナス記号が先頭なら無視
+		//マイナス記号が一つだけ、かつ、先頭についてる、かつ、プラス記号が見つからないならbreak
+		if (str[0] == '-')
+		{
+			do
+			{
+				i++;
+			} while (!isOperator(str[i]));
+		}
 
 		returnstringset ans = calc(str, i);
 		string replacestr = ans.replacestr;//置き換える文字列
 		string calcans = ans.ansstr;//置き換え先の文字列
 
 		str.replace(str.find(replacestr), replacestr.size(), calcans);
-		i = 0;
+		i = -1;
 	}
 
 	return stod(str.c_str());
@@ -251,11 +259,20 @@ string StringEvaluate::culcFunc(string tfunc, string arg)
 
 bool StringEvaluate::isOperator(const char c)
 {
-	return (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')') ? true : false;
+	return (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')' || c == '\0') ? true : false;
 }
 
 void StringEvaluate::isValidformula(string formula)
 {
+	if (formula == "")
+	{
+		cout << "error : 文字列が空です" << endl;
+		Sleep(4 * 1000);
+		exit(1);
+	}
+
+	formula.push_back('\0');
+
 	for (int i = 0; i < formula.size(); i++)
 	{
 		char c = formula[i];

@@ -15,7 +15,7 @@ int main()
 	do {
 		cin >> formula;
 		cout <<"ans : "<< std::fixed << StringEvaluate::getInst()->eval(formula) << "\n\n";
-		cout << "[q]で続行、それ以外で終了" << endl;
+		cout << "[q]で終了、それ以外で続行" << endl;
 		cin >> formula;
 
 		if (formula[0] == 'Q' || formula[0] == 'q')break;
