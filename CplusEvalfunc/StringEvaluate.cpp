@@ -1,105 +1,5 @@
 #include"StringEvaluate.h"
 
-struct A
-{
-	int v1;
-	int v2;
-	int v3;
-	int v4;
-};
-
-struct B
-{
-	int v1;
-	int v2;
-	int v3;
-	int v4;
-};
-
-string StringEvaluate::AconvertString(string str)
-{
-	A a = { 100,200,300,400 };
-
-	int num = 0;
-
-	if (str == "a.v1")
-		num = a.v1;
-	else if (str == "a.v2")
-		num = a.v2;
-	else if (str == "a.v3")
-		num = a.v3;
-	else if (str == "a.v4")
-		num = a.v4;
-	else
-		std::cout << "error member name (A)" << endl;
-
-	return to_string(num);
-}
-
-string StringEvaluate::BconvertString(string str)
-{
-	B b = { 500,600,700,800 };
-
-	int num = 0;
-
-	if (str == "b.v1")
-		num = b.v1;
-	else if (str == "b.v2")
-		num = b.v2;
-	else if (str == "b.v3")
-		num = b.v3;
-	else if (str == "b.v4")
-		num = b.v4;
-	else
-		std::cout << "error member name (B)" << endl;
-
-	return to_string(num);
-}
-
-string StringEvaluate::ConvertStruct_toString(string str)
-{
-	string convertstr = str + '\0';
-
-	string mname;
-	bool detectmemberaccess = false;
-
-	for (auto it = str.begin(); it != str.end(); it++)
-	{
-		if ((*it) == '.' && !detectmemberaccess && !isdigit((int)(*(it + 1))))//メンバアクセスを検知
-		{
-			mname.push_back(*(it - 1));
-			mname.push_back((*it));
-			detectmemberaccess = true;
-		}
-		else if (detectmemberaccess)//
-		{
-			if (!isOperator((*it)))//演算子でないなら
-			{
-				mname.push_back((*it));
-				if ((it + 1) == str.end())
-				{
-					if (mname[0] == 'a')
-						convertstr.replace(convertstr.find(mname), mname.size(), AconvertString(mname));
-					else if (mname[0] == 'b')
-						convertstr.replace(convertstr.find(mname), mname.size(), BconvertString(mname));
-				}
-			}
-			else//もし、クラス名.メンバ名が完全になったら
-			{
-
-				if (mname[0] == 'a')
-					convertstr.replace(convertstr.find(mname), mname.size(), AconvertString(mname));
-				else if (mname[0] == 'b')
-					convertstr.replace(convertstr.find(mname), mname.size(), BconvertString(mname));
-
-				mname.clear();
-				detectmemberaccess = false;
-			}
-		}
-	}
-	return convertstr;
-}
-
 string StringEvaluate::deletespace(string str)
 {
 	while (str.find(" ") != string::npos)
@@ -112,7 +12,6 @@ string StringEvaluate::deletespace(string str)
 double StringEvaluate::eval(string s)
 {
 	string str = deletespace(s);//空白は短縮します
-	str = ConvertStruct_toString(str);//構造体メンバを文字に変換
 	str = replaceMathConstant(str);//PI,Eとかの置き換えをする
 	isValidformula(str);//変な記号とか入ってないか確認
 

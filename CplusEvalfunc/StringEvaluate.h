@@ -21,10 +21,7 @@ public:
 
 private:
 
-	string ConvertStruct_toString(string s);
 	string culcFunc(string tfunc,string arg);
-	string AconvertString(string str);
-	string BconvertString(string str);
 	returnstringset calc(string formula,int openum);
 	string deletespace(string str);
 
