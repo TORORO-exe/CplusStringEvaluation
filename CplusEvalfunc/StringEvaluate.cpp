@@ -299,21 +299,21 @@ string StringEvaluate::culcFunc(string tfunc, string arg)
 	//à¯êîàÍå¬ÇÃèÍçáÇÕÇ±ÇÃï”ÇÃifï∂Ç≈OK
 	if (strcmp("abs", tfunc.c_str()) == 0) return to_string(fabs(eval(arg)));
 	else if (strcmp("fabs", tfunc.c_str()) == 0) return to_string(fabs(eval(arg)));
-	else if (strcmp("sqrt", tfunc.c_str()) == 0) return to_string(sqrt(eval(arg)));
+	else if (strcmp("sqrt", tfunc.c_str()) == 0) return to_string(sqrt(eval(arg)));//
 	else if (strcmp("sin", tfunc.c_str()) == 0) return to_string(sin(eval(arg)));
 	else if (strcmp("cos", tfunc.c_str()) == 0) return to_string(cos(eval(arg)));
 	else if (strcmp("tan", tfunc.c_str()) == 0) return to_string(tan(eval(arg)));
-	else if (strcmp("asin", tfunc.c_str()) == 0) return to_string(asin(eval(arg)));
-	else if (strcmp("acos", tfunc.c_str()) == 0) return to_string(acos(eval(arg)));
+	else if (strcmp("asin", tfunc.c_str()) == 0) return to_string(asin(eval(arg)));//
+	else if (strcmp("acos", tfunc.c_str()) == 0) return to_string(acos(eval(arg)));//
 	else if (strcmp("atan", tfunc.c_str()) == 0) return to_string(atan(eval(arg)));
 	else if (strcmp("sinh", tfunc.c_str()) == 0) return to_string(sinh(eval(arg)));
 	else if (strcmp("cosh", tfunc.c_str()) == 0) return to_string(cosh(eval(arg)));
 	else if (strcmp("tanh", tfunc.c_str()) == 0) return to_string(tanh(eval(arg)));
 	else if (strcmp("asinh", tfunc.c_str()) == 0) return to_string(asinh(eval(arg)));
-	else if (strcmp("acosh", tfunc.c_str()) == 0) return to_string(acosh(eval(arg)));
-	else if (strcmp("atanh", tfunc.c_str()) == 0) return to_string(atanh(eval(arg)));
-	else if (strcmp("exp", tfunc.c_str()) == 0) return to_string(exp(eval(arg)));
-	else if (strcmp("log", tfunc.c_str()) == 0) return to_string(log(eval(arg)));
+	else if (strcmp("acosh", tfunc.c_str()) == 0) return to_string(acosh(eval(arg)));//
+	else if (strcmp("atanh", tfunc.c_str()) == 0) return to_string(atanh(eval(arg)));//
+	else if (strcmp("exp", tfunc.c_str()) == 0) return to_string(exp(eval(arg)));//
+	else if (strcmp("log", tfunc.c_str()) == 0) return to_string(log(eval(arg)));//
 	else if (strcmp("log10", tfunc.c_str()) == 0) return to_string(log10(eval(arg)));
 	else if (strcmp("ceil", tfunc.c_str()) == 0) return to_string(ceil(eval(arg)));
 	else if (strcmp("floor", tfunc.c_str()) == 0) return to_string(floor(eval(arg)));
@@ -345,7 +345,7 @@ string StringEvaluate::culcFunc(string tfunc, string arg)
 	else if (strcmp("mod", tfunc.c_str()) == 0) return to_string(fmod(eval(arg1), eval(arg2)));
 	else if (strcmp("fmod", tfunc.c_str()) == 0) return to_string(fmod(eval(arg1), eval(arg2)));
 	
-	std::cout << "error : ä÷êîñºÇ™ïsê≥Ç≈Ç∑" << '[' + tfunc + ']' << endl;
+	std::cout << "error : îÒëŒâûÇÃä÷êîÇ≈Ç∑" << '[' + tfunc + ']' << endl;
 	Sleep(4 * 1000);
 	exit(1);
 }

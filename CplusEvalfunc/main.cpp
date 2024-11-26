@@ -21,6 +21,7 @@ int main()
 		if (formula[0] == 'Q' || formula[0] == 'q')break;
 
 		cout << "---------" << "‘±s" << "---------" << endl;
+		cout << "Ž®‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢..." << endl;
 
 	} while (true);
 
