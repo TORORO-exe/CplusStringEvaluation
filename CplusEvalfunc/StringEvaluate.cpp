@@ -264,14 +264,41 @@ bool StringEvaluate::isOperator(const char c)
 
 void StringEvaluate::isValidformula(string formula)
 {
+	string errmsg = "";
+
 	if (formula == "")
 	{
-		cout << "error : •¶Žš—ñ‚ª‹ó‚Å‚·" << endl;
-		Sleep(4 * 1000);
-		exit(1);
+		errmsg = "error : •¶Žš—ñ‚ª‹ó‚Å‚·";
 	}
 
 	formula.push_back('\0');
+
+	if (formula.find(")(") != string::npos)//(10+20)(90-10)Š‡ŒÊ‚ÌŠÔ‚Í•K‚¸ŒvŽZ‹L†“ü‚ê‚Ä‚Ù‚µ‚¢‚Ì‚Å
+	{
+		errmsg = "error : ‹L†‚Ì“ü—Í˜R‚ê‚ª‚ ‚è‚Ü‚·\n(10+20)(30+40)‚Ì‚æ‚¤‚È‘‚«•û‚Í‚Å‚«‚Ü‚¹‚ñ";
+	}
+
+	for (int i = 0; i < formula.size(); i++)//(10+20)90Š|‚¯ŽZ‹L†‚È‚Ç‚ÌÈ—ª‚Í‚Å‚«‚Ü‚¹‚ñ
+	{
+		if (formula[i] == ')' && isdigit(formula[i + 1]))
+		{
+			errmsg = "error : ‹L†‚Ì“ü—Í˜R‚ê‚ª‚ ‚è‚Ü‚·\n(10+20)30‚Ì‚æ‚¤‚È‘‚«•û‚Í‚Å‚«‚Ü‚¹‚ñ";
+		}
+		if (formula[i] == '(' && i != 0)
+		{
+			if (isdigit(formula[i - 1]) && formula.find("log10") == string::npos)
+			{
+				errmsg = "error : ‹L†‚Ì“ü—Í˜R‚ê‚ª‚ ‚è‚Ü‚·\n20(10+20)‚Ì‚æ‚¤‚È‘‚«•û‚Í‚Å‚«‚Ü‚¹‚ñ";
+			}
+		}
+		if (isalpha(formula[i]) && i != 0)
+		{
+			if (isdigit(formula[i - 1]))
+			{
+				errmsg = "error : ‹L†‚Ì“ü—Í˜R‚ê‚ª‚ ‚è‚Ü‚·\n30sin(PI)‚Ì‚æ‚¤‚È‘‚«•û‚Í‚Å‚«‚Ü‚¹‚ñ";
+			}
+		}
+	}
 
 	for (int i = 0; i < formula.size(); i++)
 	{
@@ -280,10 +307,18 @@ void StringEvaluate::isValidformula(string formula)
 
 		if (!f)
 		{
-			cout << "error : —\Šú‚µ‚Ä‚¢‚È‚¢‹L†‚ªŽg‚í‚ê‚Ä‚¢‚Ü‚·" << "[ " << c << " ]" << endl;
-			Sleep(4 * 1000);
-			exit(1);
+			errmsg = "error : —\Šú‚µ‚Ä‚¢‚È‚¢‹L†‚ªŽg‚í‚ê‚Ä‚¢‚Ü‚·";
+			string tmp = "[ x ]";
+			tmp[2] = c;
+			errmsg += tmp;
 		}
+	}
+
+	if (errmsg != "")
+	{
+		cout << errmsg << endl;
+		Sleep(4 * 1000);
+		exit(1);
 	}
 }
 
